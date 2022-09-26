@@ -2,48 +2,52 @@ import java.util.*;
 import java.lang.Math;
 
 class Solution {
+    int score1 = 0;
+    int score2 = 0;
+    int score3 = 0;
     public int[] solution(int[] answers) {
+        int[] method1 = {1,2,3,4,5};
+        int[] method2 = {2,1,2,3,2,4,2,5};
+        int[] method3 = {3,3,1,1,2,2,4,4,5,5};
         ArrayList<Integer> answer = new ArrayList<>();
-        ArrayList<Integer> num1 = new ArrayList<>(Arrays.asList(1,2,3,4,5));
-        ArrayList<Integer> num2 = new ArrayList<>(Arrays.asList(2,1,2,3,2,4,2,5));
-        ArrayList<Integer> num3 = new ArrayList<>(Arrays.asList(3,3,1,1,2,2,4,4,5,5));
-        
-        int scoreNum1 = 0;
-        int scoreNum2 = 0;
-        int scoreNum3 = 0;
-        
-        int index = 0 ;
-        
-        for (int i : answers) {
-            if (i == num1.get(index % num1.size())) {
-                scoreNum1 += 1;
-            }
-            if (i == num2.get(index % num2.size())) {
-                scoreNum2 += 1;
-            }
-            if (i == num3.get(index % num3.size())) {
-                scoreNum3 += 1;
-            }
-            index += 1;
+
+        for (int i=0; i<answers.length; i++) {
+            if (answers[i] == method1[i % method1.length]) score1 ++;
+            if (answers[i] == method2[i % method2.length]) score2 ++;
+            if (answers[i] == method3[i % method3.length]) score3 ++;
         }
-        
-        
-        int max = Collections.max(Arrays.asList(scoreNum1, scoreNum2, scoreNum3));
-        
-        List<Integer> loop = new ArrayList<>(Arrays.asList(scoreNum1, scoreNum2, scoreNum3));
-        int cnt = 1;
-        for (Integer i : loop) {
-            if (i == max) {
-                answer.add(cnt);
+
+        if (score1==0 && score2 ==0 && score3==0) {
+            return new int[]{};
+        }  // 정답자가 없을떄
+
+        ArrayList<Score> score = new ArrayList<Score>();
+        score.add(new Score(1, score1));
+        score.add(new Score(2, score2));
+        score.add(new Score(3, score3));
+
+
+        Collections.sort(score, new Comparator<Score>() {
+            @Override
+            public int compare(Score o1, Score o2) {
+                return o2.score - o1.score;
             }
-            cnt ++;
+        });
+
+        for(Score s: score) {
+            if (s.score == score.get(0).score) {
+                answer.add(s.num);
+            }
         }
-        int[] result = answer.stream()
-                        .mapToInt(Integer :: intValue)
-                        .toArray();
-        return result;
-        
-        
-        
+        return answer.stream().mapToInt(Integer::intValue).toArray();
+    }
+
+    public class Score{
+        int num;
+        int score;
+        Score(int num, int score) {
+            this.score = score;
+            this.num = num;
+        }
     }
 }
