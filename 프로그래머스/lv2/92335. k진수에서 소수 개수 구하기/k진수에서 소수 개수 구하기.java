@@ -8,7 +8,7 @@ class Solution {
             if (c != '0') {
                 temp += String.valueOf(c);
             }else {
-                if (!temp.equals("") && isPrime(Integer.parseInt(temp))) {
+                if (!temp.equals("") && isPrime(Long.parseLong(temp))) {
                     answer ++;
                 }
                 temp = "";
