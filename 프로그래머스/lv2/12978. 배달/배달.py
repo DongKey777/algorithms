@@ -1,29 +1,26 @@
-import sys
-from collections import deque
+import heapq
 
 
 def solution(N, road, K):
-    answer = 0
-    graph = [[] for _ in range(N + 1)]
-    visited = [sys.maxsize] * (N + 1)
-    visited[1] = 0
+    dist = [float('inf')] * (N + 1)
+    dist[1] = 0
+    adj = [[] for _ in range(N + 1)]
 
-    for a, b, c, in road:
-        graph[a].append([b, c])
-        graph[b].append([a, c])
+    for r in road:
+        adj[r[0]].append([r[2], r[1]])
+        adj[r[1]].append([r[2], r[0]])
 
-    queue = deque([[1, 0]])
+    dij(dist, adj)
 
-    while queue:
-        target, num = queue.popleft()
+    return len([i for i in dist if i <= K])
 
-        for j in graph[target]:
-            if num + j[1] <= K and num + j[1] < visited[j[0]]:
-                visited[j[0]] = num + j[1]
-                queue.append([j[0], num + j[1]])
 
-    for k in visited:
-        if k != sys.maxsize:
-            answer += 1
-
-    return answer
+def dij(dist, adj):
+    heap = []
+    heapq.heappush(heap, [0, 1])
+    while heap:
+        cost, node = heapq.heappop(heap)
+        for c, n in adj[node]:
+            if cost + c < dist[n]:
+                dist[n] = cost + c
+                heapq.heappush(heap, [cost + c, n])
