@@ -1,5 +1,4 @@
-from heapq import heappop, heappush
-
+import heapq
 
 def solution(book_time):
     rooms = []
@@ -10,8 +9,8 @@ def solution(book_time):
         check_out = num(book[1]) + 10
 
         if len(rooms) != 0 and rooms[0] <= check_in:
-            heappop(rooms)
-        heappush(rooms, check_out)
+            heapq.heappop(rooms)
+        heapq.heappush(rooms, check_out)
 
     return len(rooms)
 
