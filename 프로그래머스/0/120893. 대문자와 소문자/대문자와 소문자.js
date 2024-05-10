@@ -1,7 +1,7 @@
 function solution(my_string) {
     var answer = '';
     
-    for (var c of [...my_string]) {
+    for (var c of my_string) {
         if (c.toLowerCase() != c) {
             answer += c.toLowerCase();
         }else {
