@@ -11,6 +11,10 @@ function solution(keymap, targets) {
             }
         }
     }
+    console.log(keys);
+    
+    
+    
     
     var answer = [];
     for (var target of targets) {
