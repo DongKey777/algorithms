@@ -1,15 +1,25 @@
 function solution(ingredient) {
-    var answer = 0;
-    var q = [];
+    var answer = [];
+    var count = 0;
+    
     for(let ingredi of ingredient) {
-        q.push(ingredi);
-        if (q.length >= 4
-            && q.slice(q.length-4, q.length).join("") == "1231") {
-            q.splice(-4);
-            answer += 1;
+        if (answer.length >= 4) {
+            console.log(answer.slice(answer.length-4,answer.length));
+            if (answer.slice(answer.length-4,answer.length).join("") == "1231" ) {
+                count += 1 ;
+                answer.pop()
+                answer.pop()
+                answer.pop()
+                answer.pop()
+            }
+        } else {
+            answer.push(ingredi);
         }
     }
     
+    if (answer.length >= 4 && answer.slice(answer.length-4,answer.length).join("") == "1231") {
+        count += 1;
+    }
     
-    return answer;
+    return count;
 }
